@@ -9,7 +9,19 @@ KEK Node.js team
 5. Максим Романюк ІПЗ-33 (https://github.com/kubezen-stack): Dev 
 6. Богдан Леонідов ІПЗ-32 (https://github.com/bohdawg): Dev 
 7. Олександр Купина ІПЗ-32 (https://github.com/SashaKupyna): Dev 
-8. Денис Чудла ІПЗ-33 (https://github.com/denyschudla25-netizen): Dev 
+8. Денис Чудла ІПЗ-33 (https://github.com/denyschudla25-netizen): Dev
+
+10/14/2026
+1. Анатолій Кульчицький ІПЗ-32 (https://github.com/blackw1ndow): Dev
+2. Андрій Перегінць  ІПЗ-33 (https://github.com/AndriiPerehinets): Dev
+3. Олександр Милян ІПЗ-32 (https://github.com/AsterPy): Dev
+4. Максим Попович ІПЗ-33 (https://github.com/DecimusMM): Team lead
+5. Максим Романюк ІПЗ-33 (https://github.com/kubezen-stack): Dev 
+6. Богдан Леонідов ІПЗ-32 (https://github.com/bohdawg): BA
+7. Олександр Купина ІПЗ-32 (https://github.com/SashaKupyna): QA
+8. Денис Чудла ІПЗ-33 (https://github.com/denyschudla25-netizen): Dev
+Виконана робота:
+Створені вимоги від проєкту, усні пайплайни роботи, структуру проєкту, скелет з залежностями
 
 REQUIREMENTS
 

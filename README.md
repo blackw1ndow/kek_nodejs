@@ -20,6 +20,7 @@ KEK Node.js team
 6. Богдан Леонідов ІПЗ-32 (https://github.com/bohdawg): BA
 7. Олександр Купина ІПЗ-32 (https://github.com/SashaKupyna): QA
 8. Денис Чудла ІПЗ-33 (https://github.com/denyschudla25-netizen): Dev
+
 Виконана робота:
 Створені вимоги від проєкту, усні пайплайни роботи, структуру проєкту, скелет з залежностями
 

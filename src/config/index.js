@@ -1,5 +1,5 @@
 const DEFAULT_PORT = 3000;
-const DEFAULT_JWT_SECRET = 'dev-secret-key-change-in-prod';
+const DEFAULT_JWT_SECRET = 'duzhe-potuzhnyi-meha-token-change-in-prod';
 const DEFAULT_JWT_EXPIRES_IN = '30m';
 
 const config = {

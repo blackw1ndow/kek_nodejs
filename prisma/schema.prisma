@@ -1,0 +1,158 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  PARENT
+  TEACHER
+}
+
+enum PaymentPlan {
+  MONTHLY
+  YEARLY
+}
+
+enum RoomType {
+  GROUP
+  CLUB
+}
+
+enum StaffType {
+  EDUCATOR
+  ASSISTANT
+  CLUB_TEACHER
+  MANAGER
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  passwordHash String
+  role         Role
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  parent Parent?
+  staff  Staff?
+}
+
+model Parent {
+  id       Int    @id @default(autoincrement())
+  userId   Int?   @unique
+  fullName String
+  phone    String
+  debt     Int    @default(0)
+
+  user     User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
+  children ParentChild[]
+}
+
+model Child {
+  id                 Int         @id @default(autoincrement())
+  fullName           String
+  birthDate          DateTime    @db.Date
+  notes              String?
+  discountPercent    Int         @default(0)
+  paymentPlan        PaymentPlan @default(MONTHLY)
+  hasDeputyRelatives Boolean     @default(false)
+  paidUntil          DateTime?   @db.Date
+  isActive           Boolean     @default(true)
+  groupId            Int?
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
+
+  group   Group?        @relation(fields: [groupId], references: [id], onDelete: SetNull)
+  parents ParentChild[]
+
+  @@index([groupId])
+}
+
+model ParentChild {
+  parentId Int
+  childId  Int
+
+  parent Parent @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  child  Child  @relation(fields: [childId], references: [id], onDelete: Cascade)
+
+  @@id([parentId, childId])
+  @@index([childId])
+}
+
+model Room {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  type        RoomType
+  monthlyCost Int      @default(5000000)
+
+  group Group?
+  club  Club?
+}
+
+model Group {
+  id          Int    @id @default(autoincrement())
+  name        String
+  age         Int
+  roomId      Int    @unique
+  educatorId  Int?   @unique
+  assistantId Int?   @unique
+
+  room      Room           @relation(fields: [roomId], references: [id])
+  educator  Staff?         @relation("GroupEducator", fields: [educatorId], references: [id], onDelete: SetNull)
+  assistant Staff?         @relation("GroupAssistant", fields: [assistantId], references: [id], onDelete: SetNull)
+  children  Child[]
+  schedule  ScheduleSlot[]
+
+  @@index([age])
+}
+
+model Staff {
+  id       Int       @id @default(autoincrement())
+  fullName String
+  type     StaffType
+  isActive Boolean   @default(true)
+  userId   Int?      @unique
+
+  user        User?  @relation(fields: [userId], references: [id], onDelete: SetNull)
+  educatorOf  Group? @relation("GroupEducator")
+  assistantOf Group? @relation("GroupAssistant")
+  clubTaught  Club?
+}
+
+model Club {
+  id        Int    @id @default(autoincrement())
+  name      String @unique
+  roomId    Int    @unique
+  teacherId Int    @unique
+
+  room     Room           @relation(fields: [roomId], references: [id])
+  teacher  Staff          @relation(fields: [teacherId], references: [id])
+  schedule ScheduleSlot[]
+}
+
+model ScheduleSlot {
+  id          Int    @id @default(autoincrement())
+  groupId     Int
+  dayOfWeek   Int
+  startMinute Int
+  endMinute   Int
+  activity    String
+  clubId      Int?
+
+  group Group @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  club  Club? @relation(fields: [clubId], references: [id], onDelete: SetNull)
+
+  @@unique([groupId, dayOfWeek, startMinute])
+  @@unique([clubId, dayOfWeek, startMinute])
+}
+
+model Setting {
+  key   String @id
+  value Json
+}

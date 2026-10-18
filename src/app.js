@@ -3,6 +3,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const { notFound } = require('./middleware/notFound');
 const { errorHandler } = require('./middleware/errorHandler');
+const authRoutes = require('./modules/auth/auth.routes');
 
 function createApp() {
   const app = express();
@@ -13,6 +14,8 @@ function createApp() {
   app.get('/api/v1/health', (_req, res) => {
     res.json({ status: 'ok' });
   });
+
+  app.use('/api/v1/auth', authRoutes);
 
   app.use(notFound);
   app.use(errorHandler);

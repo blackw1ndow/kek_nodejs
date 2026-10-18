@@ -24,11 +24,22 @@ function validate(schema) {
           params: req.params,
         });
 
+        req.valid = parsed;
+
         if (parsed.body !== undefined) req.body = parsed.body;
-        if (parsed.query !== undefined) req.query = parsed.query;
+        if (parsed.query !== undefined) {
+          Object.defineProperty(req, 'query', {
+            value: parsed.query,
+            writable: true,
+            enumerable: true,
+            configurable: true,
+          });
+        }
         if (parsed.params !== undefined) req.params = parsed.params;
       } else {
-        req.body = await schema.parseAsync(req.body);
+        const parsedBody = await schema.parseAsync(req.body);
+        req.body = parsedBody;
+        req.valid = { body: parsedBody };
       }
 
       return next();

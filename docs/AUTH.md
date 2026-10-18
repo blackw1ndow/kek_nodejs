@@ -38,7 +38,7 @@ const { someSchema } = require('./some.schema');
 // Перевіряє req.body, req.query або req.params згідно зі схемою Zod
 router.post('/items', validate(someSchema), controller.create);
 ```
-Підтримує як пряму валідацію `req.body`, так і комплексну `{ body, query, params }` з автоматичним приведенням типів (coercion).
+Підтримує як пряму валідацію `req.body`, так і комплексну `{ body, query, params }` з автоматичним приведенням типів (coercion). Результат валідації записується у `req.valid` (`{ body?, query?, params? }`), а також оновлюються `req.body`, `req.params` та `req.query` (через `Object.defineProperty` для сумісності з read-only геттером `req.query` в Express 5).
 
 ### 2.3. Захист маршрутів (`src/middleware/auth.js` та `authorize.js`)
 * **`auth`:** Витягує та перевіряє Bearer токен із заголовка `Authorization`. Підшиває об'єкт користувача у `req.user = { id, email, role }`.

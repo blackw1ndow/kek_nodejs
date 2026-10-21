@@ -29,6 +29,7 @@ describe('validate middleware', () => {
 
       expect(next).toHaveBeenCalledWith();
       expect(req.body).toEqual({ email: 'test@example.com', age: 25 });
+      expect(req.valid).toEqual({ body: { email: 'test@example.com', age: 25 } });
     });
 
     test('помилка валідації передає ZodError у next(err)', async () => {
@@ -60,7 +61,7 @@ describe('validate middleware', () => {
       }),
     });
 
-    test('успішна валідація оновлює body, query, params', async () => {
+    test('успішна валідація оновлює req.valid, body, query, params', async () => {
       const middleware = validate(fullSchema);
       const req = {
         body: { name: '  Оленка  '.trim() },
@@ -72,9 +73,43 @@ describe('validate middleware', () => {
       await middleware(req, {}, next);
 
       expect(next).toHaveBeenCalledWith();
+      expect(req.valid).toEqual({
+        body: { name: 'Оленка' },
+        query: { month: '2026-10' },
+        params: { id: 15 },
+      });
       expect(req.body).toEqual({ name: 'Оленка' });
       expect(req.query).toEqual({ month: '2026-10' });
       expect(req.params).toEqual({ id: 15 });
+    });
+
+    test('Express 5 read-only req.query: зберігає z.coerce.number() у req.valid.query та req.query', async () => {
+      const paginationSchema = z.object({
+        query: z.object({
+          page: z.coerce.number().int().positive(),
+        }),
+      });
+
+      const middleware = validate(paginationSchema);
+      // Імітуємо поведінку Express 5, де req.query — getter-only властивість на прототипі
+      const reqProto = {};
+      Object.defineProperty(reqProto, 'query', {
+        get() {
+          return { page: '5' };
+        },
+        enumerable: true,
+        configurable: true,
+      });
+      const req = Object.create(reqProto);
+      const next = jest.fn();
+
+      await middleware(req, {}, next);
+
+      expect(next).toHaveBeenCalledWith();
+      expect(req.valid).toEqual({ query: { page: 5 } });
+      expect(typeof req.valid.query.page).toBe('number');
+      expect(req.query).toEqual({ page: 5 });
+      expect(typeof req.query.page).toBe('number');
     });
 
     test('помилка у query передає ZodError у next(err)', async () => {
@@ -94,7 +129,7 @@ describe('validate middleware', () => {
       expect(err.issues[0].path).toEqual(['query', 'month']);
     });
 
-    test('часткова схема запиту (лише body) не зачіпає query та params', async () => {
+    test('часткова схема запиту (лише body) не зачіпає query та params і заповнює req.valid', async () => {
       const bodyOnlySchema = z.object({
         body: z.object({
           action: z.string(),
@@ -112,12 +147,13 @@ describe('validate middleware', () => {
       await middleware(req, {}, next);
 
       expect(next).toHaveBeenCalledWith();
+      expect(req.valid).toEqual({ body: { action: 'test' } });
       expect(req.body).toEqual({ action: 'test' });
       expect(req.query).toEqual({ filter: 'all' });
       expect(req.params).toEqual({ id: '42' });
     });
 
-    test('часткова схема запиту (лише query) не зачіпає body та params', async () => {
+    test('часткова схема запиту (лише query) не зачіпає body та params і заповнює req.valid', async () => {
       const queryOnlySchema = z.object({
         query: z.object({
           role: z.enum(['ADMIN', 'MANAGER']),
@@ -135,6 +171,7 @@ describe('validate middleware', () => {
       await middleware(req, {}, next);
 
       expect(next).toHaveBeenCalledWith();
+      expect(req.valid).toEqual({ query: { role: 'ADMIN' } });
       expect(req.body).toEqual({ keep: 'me' });
       expect(req.params).toEqual({ id: '123' });
       expect(req.query).toEqual({ role: 'ADMIN' });

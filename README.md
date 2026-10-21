@@ -2,40 +2,48 @@
 KEK Node.js team
 
 10/6/2026
-Анатолій Кульчицький ІПЗ-32 (https://github.com/blackw1ndow): Team Lead
-Андрій Перегінць  ІПЗ-33 (https://github.com/AndriiPerehinets): BA
-Олександр Милян ІПЗ-32 (https://github.com/AsterPy): QA 
-Максим Попович ІПЗ-33 (https://github.com/DecimusMM): Dev 
-Максим Романюк ІПЗ-33 (https://github.com/kubezen-stack): Dev 
-Богдан Леонідов ІПЗ-32 (https://github.com/bohdawg): Dev 
-Олександр Купина ІПЗ-32 (https://github.com/SashaKupyna): Dev 
-Денис Чудла ІПЗ-33 (https://github.com/denyschudla25-netizen): Dev
+1. Анатолій Кульчицький ІПЗ-32 (https://github.com/blackw1ndow): Team Lead
+3. Андрій Перегінць  ІПЗ-33 (https://github.com/AndriiPerehinets): BA
+4. Олександр Милян ІПЗ-32 (https://github.com/AsterPy): QA 
+5. Максим Попович ІПЗ-33 (https://github.com/DecimusMM): Dev 
+6. Максим Романюк ІПЗ-33 (https://github.com/kubezen-stack): Dev 
+7. Богдан Леонідов ІПЗ-32 (https://github.com/bohdawg): Dev 
+8. Олександр Купина ІПЗ-32 (https://github.com/SashaKupyna): Dev 
+9. Денис Чудла ІПЗ-33 (https://github.com/denyschudla25-netizen): Dev
+
+##
 
 10/14/2026
-Анатолій Кульчицький ІПЗ-32 (https://github.com/blackw1ndow): Dev
-Андрій Перегінць  ІПЗ-33 (https://github.com/AndriiPerehinets): Dev
-Олександр Милян ІПЗ-32 (https://github.com/AsterPy): Dev
-Максим Попович ІПЗ-33 (https://github.com/DecimusMM): Team lead
-Максим Романюк ІПЗ-33 (https://github.com/kubezen-stack): Dev 
-Богдан Леонідов ІПЗ-32 (https://github.com/bohdawg): BA
-Олександр Купина ІПЗ-32 (https://github.com/SashaKupyna): QA
-Денис Чудла ІПЗ-33 (https://github.com/denyschudla25-netizen): Dev
+1. Анатолій Кульчицький ІПЗ-32 (https://github.com/blackw1ndow): Dev
+2. Андрій Перегінць  ІПЗ-33 (https://github.com/AndriiPerehinets): Dev
+3. Олександр Милян ІПЗ-32 (https://github.com/AsterPy): Dev
+4. Максим Попович ІПЗ-33 (https://github.com/DecimusMM): Team lead
+5. Максим Романюк ІПЗ-33 (https://github.com/kubezen-stack): Dev 
+6. Богдан Леонідов ІПЗ-32 (https://github.com/bohdawg): BA
+7. Олександр Купина ІПЗ-32 (https://github.com/SashaKupyna): QA
+8. Денис Чудла ІПЗ-33 (https://github.com/denyschudla25-netizen): Dev
 
-## Виконана робота (Етап 0):
+##
+
+Виконана робота (Етап 0):
 
 - Створені вимоги від проєкту, усні пайплайни роботи, структуру проєкту, скелет з залежностями
 
-10/21/2026
-Анатолій Кульчицький ІПЗ-32 (https://github.com/blackw1ndow): Dev
-Андрій Перегінць ІПЗ-33 (https://github.com/AndriiPerehinets): Team lead
-Олександр Милян ІПЗ-32 (https://github.com/AsterPy): BA
-Максим Попович ІПЗ-33 (https://github.com/DecimusMM): Dev
-Максим Романюк ІПЗ-33 (https://github.com/kubezen-stack): Dev
-Богдан Леонідов ІПЗ-32 (https://github.com/bohdawg): QA
-Олександр Купина ІПЗ-32 (https://github.com/SashaKupyna): Dev
-Денис Чудла ІПЗ-33 (https://github.com/denyschudla25-netizen): Dev
+##
 
-## Виконана робота (Етап 1)
+10/21/2026
+1. Анатолій Кульчицький ІПЗ-32 (https://github.com/blackw1ndow): Dev
+2. Андрій Перегінць ІПЗ-33 (https://github.com/AndriiPerehinets): Team lead
+3. Олександр Милян ІПЗ-32 (https://github.com/AsterPy): BA
+4. Максим Попович ІПЗ-33 (https://github.com/DecimusMM): Dev
+5. Максим Романюк ІПЗ-33 (https://github.com/kubezen-stack): Dev
+6. Богдан Леонідов ІПЗ-32 (https://github.com/bohdawg): QA
+7. Олександр Купина ІПЗ-32 (https://github.com/SashaKupyna): Dev
+8. Денис Чудла ІПЗ-33 (https://github.com/denyschudla25-netizen): Dev
+
+##
+
+Виконана робота (Етап 1)
 
 - Аналіз і планування: вимоги замовника та список відкритих питань, пайплайн роботи на 8 тижнів, ротація ролей (лід / BA / QA), структура проєкту
 - Каркас: Express 5 із залежностями, єдина обробка помилок (http-status-codes, errorCodes), Jest з порогом покриття 95%
@@ -44,6 +52,8 @@ KEK Node.js team
 - Бізнес-логіка: вік дитини на 1 вересня, вартість навчання і харчування за місяць і рік зі знижками, зарплати персоналу; усі суми в копійках
 - Тестування: 116 unit- та інтеграційних тестів (Jest + Supertest), покриття 100%
 - Документація: AUTH.md, DATABASE.md, DOMAIN.md, DOMAIN_AGE_SALARY.md, презентація етапу
+
+##
 
 REQUIREMENTS
 

@@ -1,10 +1,12 @@
+const { BadRequestError } = require('../errors/AppError');
+
 const SEPTEMBER = 8; // місяці в Date рахуються з 0
 const FIRST_DAY = 1;
 
 function toUtcDate(value) {
   const date = value instanceof Date ? value : new Date(value);
   if (Number.isNaN(date.getTime())) {
-    throw new RangeError(`Invalid birth date: ${value}`);
+    throw new BadRequestError(`Invalid birth date: ${value}`);
   }
   return date;
 }
@@ -16,12 +18,12 @@ function toUtcDate(value) {
  */
 function ageOnSeptemberFirst(birthDate, targetYear) {
   if (!Number.isInteger(targetYear)) {
-    throw new RangeError(`Target year must be an integer: ${targetYear}`);
+    throw new BadRequestError(`Target year must be an integer: ${targetYear}`);
   }
   const birth = toUtcDate(birthDate);
   const septemberFirst = new Date(Date.UTC(targetYear, SEPTEMBER, FIRST_DAY));
   if (birth > septemberFirst) {
-    throw new RangeError('Birth date is after September 1 of the target year');
+    throw new BadRequestError('Birth date is after September 1 of the target year');
   }
 
   const years = targetYear - birth.getUTCFullYear();

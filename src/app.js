@@ -1,14 +1,10 @@
 const express = require('express');
-const helmet = require('helmet');
-const cors = require('cors');
 const { notFound } = require('./middleware/notFound');
 const { errorHandler } = require('./middleware/errorHandler');
 const authRoutes = require('./modules/auth/auth.routes');
 
 function createApp() {
   const app = express();
-  app.use(helmet());
-  app.use(cors());
   app.use(express.json());
 
   app.get('/api/v1/health', (_req, res) => {

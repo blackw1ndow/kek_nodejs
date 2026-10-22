@@ -1,7 +1,9 @@
+const { BadRequestError } = require('../errors/AppError');
+
 // Всі суми в копійках. За кожну дитину, яка виходить поріг, +до зарплати (едукатору і асістенту)
-// Якшо в вихователя більше 12 людей, додатково 5к, 2к за дитину, інше фікса
+// Якшо в вихователя більше 12 людей, додатково 3к, 2к за дитину, інше фікса
 const EDUCATOR_PER_CHILD = 200000; // за кожну дитину
-const EDUCATOR_EXTRA_PER_CHILD = 500000; 
+const EDUCATOR_EXTRA_PER_CHILD = 300000;
 const ASSISTANT_BASE = 2000000;
 const ASSISTANT_EXTRA_PER_CHILD = 300000;
 const EXTRA_CHILDREN_THRESHOLD = 12;
@@ -16,7 +18,7 @@ function assertGroupSize(childrenCount) {
     childrenCount < MIN_GROUP_SIZE ||
     childrenCount > MAX_GROUP_SIZE
   ) {
-    throw new RangeError(
+    throw new BadRequestError(
       `Children count must be an integer from ${MIN_GROUP_SIZE} to ${MAX_GROUP_SIZE}: ${childrenCount}`,
     );
   }

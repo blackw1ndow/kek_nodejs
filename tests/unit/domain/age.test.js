@@ -1,4 +1,5 @@
 const { ageOnSeptemberFirst } = require('../../../src/domain/age');
+const { BadRequestError } = require('../../../src/errors/AppError');
 
 describe('ageOnSeptemberFirst', () => {
   test.each([
@@ -20,7 +21,7 @@ describe('ageOnSeptemberFirst', () => {
     ['дата пізніше 1 вересня', '2026-09-02', 2026],
     ['некоректна дата', 'not-a-date', 2026],
     ['дробовий рік', '2022-01-01', 2026.5],
-  ])('%s -> RangeError', (_name, birthDate, year) => {
-    expect(() => ageOnSeptemberFirst(birthDate, year)).toThrow(RangeError);
+  ])('%s -> BadRequestError', (_name, birthDate, year) => {
+    expect(() => ageOnSeptemberFirst(birthDate, year)).toThrow(BadRequestError);
   });
 });

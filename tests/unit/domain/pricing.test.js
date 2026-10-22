@@ -6,6 +6,7 @@ const {
   yearlyTotal,
   ALLOWED_DISCOUNTS,
 } = require('../../../src/domain/pricing');
+const { BadRequestError } = require('../../../src/errors/AppError');
 
 describe('tuitionMonthly (копійки)', () => {
   test.each([
@@ -17,8 +18,8 @@ describe('tuitionMonthly (копійки)', () => {
     expect(tuitionMonthly(discount)).toBe(expected);
   });
 
-  test.each([15, 40, -10, '20', undefined])('знижка %p -> RangeError', (discount) => {
-    expect(() => tuitionMonthly(discount)).toThrow(RangeError);
+  test.each([15, 40, -10, '20', undefined])('знижка %p -> BadRequestError', (discount) => {
+    expect(() => tuitionMonthly(discount)).toThrow(BadRequestError);
   });
 });
 
@@ -32,8 +33,8 @@ describe('mealPerDay (копійки)', () => {
     expect(mealPerDay(age)).toBe(expected);
   });
 
-  test.each([1, 6, 3.5, '4'])('вік %p -> RangeError', (age) => {
-    expect(() => mealPerDay(age)).toThrow(RangeError);
+  test.each([1, 6, 3.5, '4'])('вік %p -> BadRequestError', (age) => {
+    expect(() => mealPerDay(age)).toThrow(BadRequestError);
   });
 });
 
@@ -47,8 +48,8 @@ describe('mealMonthly', () => {
     expect(mealMonthly(2, 0)).toBe(0);
   });
 
-  test.each([-1, 2.5])('днів %p -> RangeError', (days) => {
-    expect(() => mealMonthly(4, days)).toThrow(RangeError);
+  test.each([-1, 2.5])('днів %p -> BadRequestError', (days) => {
+    expect(() => mealMonthly(4, days)).toThrow(BadRequestError);
   });
 
   test.each(ALLOWED_DISCOUNTS)('знижка %i%% не впливає на харчування', (discount) => {
@@ -61,21 +62,21 @@ describe('кейс із ТЗ: 4 роки, знижка 20%', () => {
     expect(monthlyTotal(4, 20)).toBe(2250000);
   });
 
-  test('за рік — 254 880 грн', () => {
-    expect(yearlyTotal(4, 20)).toBe(25488000);
+  test('за рік — 252 720 грн (знижка 12% на навчання, харчування без знижки)', () => {
+    expect(yearlyTotal(4, 20)).toBe(25272000);
   });
 });
 
 describe('yearlyTotal', () => {
   test.each([
-    [2, 0, 24652800],
-    [5, 30, 25905600],
+    [2, 0, 23400000],
+    [5, 30, 26208000],
   ])('%i роки, знижка %i%% -> %i', (age, discount, expected) => {
     expect(yearlyTotal(age, discount)).toBe(expected);
   });
 
-  test('невалідні дані -> RangeError', () => {
-    expect(() => yearlyTotal(6, 0)).toThrow(RangeError);
-    expect(() => yearlyTotal(4, 15)).toThrow(RangeError);
+  test('невалідні дані -> BadRequestError', () => {
+    expect(() => yearlyTotal(6, 0)).toThrow(BadRequestError);
+    expect(() => yearlyTotal(4, 15)).toThrow(BadRequestError);
   });
 });

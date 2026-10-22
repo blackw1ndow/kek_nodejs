@@ -1,3 +1,5 @@
+const { BadRequestError } = require('../errors/AppError');
+
 // Ціни для батьків, всі ціни в копійках
 // Множимо до ділення, щоб не мати пройобів в float (замість * 0.88 — * 88 / 100).
 const TUITION_MONTHLY = 1500000;
@@ -9,12 +11,12 @@ const MAX_AGE = 5;
 const WORKING_DAYS_PER_MONTH = 21;
 const WORKING_DAYS_PER_YEAR = 252;
 const MONTHS_PER_YEAR = 12;
-const YEARLY_MEAL_DISCOUNT_PERCENT = 12; // знижка на харчування за оплату за рік
+const YEARLY_TUITION_DISCOUNT_PERCENT = 12; // знижка 12% на навчання при оплаті за рік вперед (не діє на харчування)
 const PERCENT_BASE = 100;
 
 function assertDiscount(discountPercent) {
   if (!ALLOWED_DISCOUNTS.includes(discountPercent)) {
-    throw new RangeError(
+    throw new BadRequestError(
       `Discount must be one of ${ALLOWED_DISCOUNTS.join(', ')}: ${discountPercent}`,
     );
   }
@@ -22,13 +24,13 @@ function assertDiscount(discountPercent) {
 
 function assertAge(age) {
   if (!Number.isInteger(age) || age < MIN_AGE || age > MAX_AGE) {
-    throw new RangeError(`Age must be an integer from ${MIN_AGE} to ${MAX_AGE}: ${age}`);
+    throw new BadRequestError(`Age must be an integer from ${MIN_AGE} to ${MAX_AGE}: ${age}`);
   }
 }
 
 function assertDays(days) {
   if (!Number.isInteger(days) || days < 0) {
-    throw new RangeError(`Working days must be a non-negative integer: ${days}`);
+    throw new BadRequestError(`Working days must be a non-negative integer: ${days}`);
   }
 }
 
@@ -58,13 +60,13 @@ function monthlyTotal(age, discountPercent) {
   return tuitionMonthly(discountPercent) + mealMonthly(age);
 }
 
-/** До оплати за рік, знижка на оплату їди за навчальний рік */
+/** До оплати за рік (знижка 12% на навчання при оплаті на рік наперед; пільги на їжу не діють) */
 function yearlyTotal(age, discountPercent) {
-  const tuition = tuitionMonthly(discountPercent) * MONTHS_PER_YEAR;
-  const meals = applyPercentDiscount(
-    mealPerDay(age) * WORKING_DAYS_PER_YEAR,
-    YEARLY_MEAL_DISCOUNT_PERCENT,
+  const tuition = applyPercentDiscount(
+    tuitionMonthly(discountPercent) * MONTHS_PER_YEAR,
+    YEARLY_TUITION_DISCOUNT_PERCENT,
   );
+  const meals = mealPerDay(age) * WORKING_DAYS_PER_YEAR;
   return tuition + meals;
 }
 

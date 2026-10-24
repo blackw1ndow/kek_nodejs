@@ -31,9 +31,15 @@ function freezeValue(value) {
 class SettingsService {
   constructor(repository = settingsRepository) {
     this.repository = repository;
-    this.cache = Object.freeze({}); // { TUITION_MONTHLY: 1500000, ... }
-    this.dbKeys = new Map(); // 'TUITION_MONTHLY' -> 'tuitionMonthly' (as key is stored in the DB)
-    this.loaded = false;
+    this.cache = Object.freeze({
+      TUITION_MONTHLY: 1500000,
+      MEAL_BASE_PER_DAY: 30000,
+    });
+    this.dbKeys = new Map([
+      ['TUITION_MONTHLY', 'tuitionMonthly'],
+      ['MEAL_BASE_PER_DAY', 'mealBasePerDay'],
+    ]);
+    this.loaded = true;
     this.loading = null;
   }
 
